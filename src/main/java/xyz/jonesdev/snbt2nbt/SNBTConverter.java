@@ -31,33 +31,29 @@ public class SNBTConverter {
    * Converts a SNBT file into a {@link net.kyori.adventure.nbt.CompoundBinaryTag}
    *
    * @param path Path from which .snbt file the data should be read
-   * @param compression Binary tag compressor used for reading
-   * @return Converted {@link net.kyori.adventure.nbt.CompoundBinaryTag}
+   * @return     Converted {@link net.kyori.adventure.nbt.CompoundBinaryTag}
    */
-  public static @NotNull CompoundBinaryTag from(final @NotNull Path path,
-                                                final BinaryTagIO.Compression compression) {
+  public static @NotNull CompoundBinaryTag from(final @NotNull Path path) {
     final SNBTProcessedFile processedFile = SNBTProcessedFile.from(path);
-    return processedFile.convert(compression);
+    return processedFile.convert();
   }
 
   /**
    * Saves a file containing converted NBT data from a raw SNBT file
    *
-   * @param from Path from which .snbt file the data should be read
-   * @param to Path to which .nbt file the data should be written
+   * @param from        Path from which .snbt file the data should be read
+   * @param to          Path to which .nbt file the data should be written
    * @param compression Binary tag compressor used for reading and writing
-   * @return Converted {@link net.kyori.adventure.nbt.CompoundBinaryTag}
    */
-  public static @NotNull CompoundBinaryTag snbt2nbt(final @NotNull Path from,
-                                                    final @NotNull Path to,
-                                                    final BinaryTagIO.Compression compression) {
-    final CompoundBinaryTag convertedSNBT = from(from, compression);
+  public static void snbt2nbt(final @NotNull Path from,
+                              final Path to,
+                              final BinaryTagIO.Compression compression) {
+    final CompoundBinaryTag converted = from(from);
 
     try {
-      BinaryTagIO.writer().write(convertedSNBT, to);
+      BinaryTagIO.writer().write(converted, to, compression);
     } catch (Throwable throwable) {
       throw new NBTWriteException(throwable);
     }
-    return convertedSNBT;
   }
 }

@@ -20,14 +20,11 @@ package xyz.jonesdev.snbt2nbt;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import net.kyori.adventure.nbt.BinaryTagIO;
 import net.kyori.adventure.nbt.CompoundBinaryTag;
+import net.kyori.adventure.nbt.TagStringIO;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.InputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Objects;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -39,7 +36,7 @@ public final class SNBTProcessedFile extends SNBTReader {
    * Reads the given file and processes the text-based nbt data
    *
    * @param path Path to the raw text-based nbt file
-   * @return SNBT file wrapper for easier conversion
+   * @return     SNBT file wrapper for easier conversion
    */
   public static @NotNull SNBTProcessedFile from(final @NotNull Path path) {
     try {
@@ -52,12 +49,11 @@ public final class SNBTProcessedFile extends SNBTReader {
   /**
    * Converts the {@link java.lang.String content} into a {@link net.kyori.adventure.nbt.CompoundBinaryTag}
    *
-   * @param compression Binary tag compressor used for reading
    * @return Converted {@link net.kyori.adventure.nbt.CompoundBinaryTag}
    */
-  public @NotNull CompoundBinaryTag convert(final BinaryTagIO.Compression compression) {
-    try (final InputStream inputStream = Files.newInputStream(path)) {
-      return BinaryTagIO.reader().read(Objects.requireNonNull(inputStream), compression);
+  public @NotNull CompoundBinaryTag convert() {
+    try {
+      return TagStringIO.get().asCompound(content);
     } catch (Throwable throwable) {
       throw new SNBTConvertException(throwable);
     }

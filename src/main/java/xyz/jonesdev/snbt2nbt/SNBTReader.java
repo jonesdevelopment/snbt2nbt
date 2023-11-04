@@ -31,7 +31,7 @@ abstract class SNBTReader {
    * Converts the content of the file into one single line of text
    *
    * @param path Path to the raw text-based nbt file
-   * @return Single-line file content
+   * @return     Single-line file content
    */
   static @NotNull String read(final @NotNull Path path) throws IOException {
     final Collection<String> allLines = Files.readAllLines(path);
