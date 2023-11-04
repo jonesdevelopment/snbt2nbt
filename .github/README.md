@@ -2,9 +2,9 @@
   <!-- Introduction -->
   <p>
     <h1>snbt to nbt</h1>
-    Simple library for converting stringified nbt (.snbt) files into .nbt files.
+    Simple library for converting and compressing stringified nbt (.snbt) files into .nbt files.
     <br>
-    Used by <a href="https://github.com/jonesdevelopment/sonar">Sonar</a> for processing nbt mappings for Minecraft packets.
+    Used by <a href="https://github.com/jonesdevelopment/sonar">Sonar</a> for processing compressed NBT mappings for Minecraft packets
   </p>
 
   <!-- Badges & icons -->
@@ -23,9 +23,30 @@
   [License](https://github.com/jonesdevelopment/snbt2nbt/blob/main/README.md#license)
 </div>
 
-## Usage
+## How to use
 
-soon™
+1. Add the [dependency](https://repo.jonesdev.xyz/#/releases/xyz/jonesdev/snbt2nbt/) to your project
+2. Prepare your `.snbt` file you would like to read/convert.
+
+### Example code
+
+Convert SNBT to NBT
+```java
+final Path snbt = new File("test.snbt").toPath();
+final CompoundBinaryTag converted = SNBTConverter.from(snbt);
+```
+Save the converted SNBT to a NBT file
+```java
+final Path snbt = new File("test.snbt").toPath();
+final Path nbt = new File("test-output.nbt").toPath();
+// snbt2nbt(Path,Path) uses GZIP compression by default
+SNBTConverter.snbt2nbt(snbt, nbt);
+```
+Use a compressor (GZIP, ZLIB, NONE)
+```java
+// ...
+SNBTConverter.snbt2nbt(snbt, nbt, NBTCompressor.GZIP);
+```
 
 ## License
 
