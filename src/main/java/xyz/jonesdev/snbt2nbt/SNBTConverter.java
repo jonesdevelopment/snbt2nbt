@@ -47,7 +47,7 @@ public class SNBTConverter {
    */
   public static void snbt2nbt(final @NotNull Path from,
                               final Path to) {
-    snbt2nbt(from, to, BinaryTagIO.Compression.GZIP);
+    snbt2nbt(from, to, NBTCompressor.GZIP);
   }
 
   /**
@@ -55,15 +55,18 @@ public class SNBTConverter {
    *
    * @param from        Path from which .snbt file the data should be read
    * @param to          Path to which .nbt file the data should be written
-   * @param compression Binary tag compressor used for reading and writing
+   * @param compressor  Compressor used for writing the .nbt file
    */
   public static void snbt2nbt(final @NotNull Path from,
                               final Path to,
-                              final BinaryTagIO.Compression compression) {
+                              final NBTCompressor compressor) {
     final CompoundBinaryTag converted = from(from);
 
     try {
-      BinaryTagIO.writer().write(converted, to, compression);
+      // We only use our own NBTCompressor for easier API usage
+      final BinaryTagIO.Compression binaryTagCompressor = compressor.tagCompressor;
+      // Write the CompoundBinaryTag to the output file
+      BinaryTagIO.writer().write(converted, to, binaryTagCompressor);
     } catch (Throwable throwable) {
       throw new NBTWriteException(throwable);
     }
