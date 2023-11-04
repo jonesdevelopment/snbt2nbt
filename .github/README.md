@@ -30,7 +30,7 @@
 
 ### Example code
 
-Convert SNBT to NBT
+Convert [SNBT](https://minecraft.wiki/w/NBT_format#SNBT_format) to NBT
 ```java
 final Path snbt = new File("test.snbt").toPath();
 final CompoundBinaryTag converted = SNBTConverter.from(snbt);
@@ -47,6 +47,8 @@ Use a compressor (GZIP, ZLIB, NONE)
 // ...
 SNBTConverter.snbt2nbt(snbt, nbt, NBTCompressor.GZIP);
 ```
+
+[Read more about NBT](https://minecraft.wiki/w/NBT_format)
 
 ## License
 
