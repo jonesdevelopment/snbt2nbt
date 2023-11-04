@@ -43,6 +43,18 @@ public class SNBTConverter {
    *
    * @param from        Path from which .snbt file the data should be read
    * @param to          Path to which .nbt file the data should be written
+   * @apiNote           This method uses GZIP to compress the output file
+   */
+  public static void snbt2nbt(final @NotNull Path from,
+                              final Path to) {
+    snbt2nbt(from, to, BinaryTagIO.Compression.GZIP);
+  }
+
+  /**
+   * Saves a file containing converted NBT data from a raw SNBT file
+   *
+   * @param from        Path from which .snbt file the data should be read
+   * @param to          Path to which .nbt file the data should be written
    * @param compression Binary tag compressor used for reading and writing
    */
   public static void snbt2nbt(final @NotNull Path from,
